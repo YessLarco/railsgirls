@@ -1,3 +1,15 @@
+<script>
+  function mostrarTodos() {
+    var todos = $('#todos');
+    if (todos.is(':visible')) {
+      todos.hide();
+    }
+    else {
+      todos.show();
+    }
+  }
+</script>
+
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -17,13 +29,27 @@
 
 <h3>Comments</h3>
 <% @comments[0,3].each do |comment| %>
-  <div>
+  <div class='comentarios'>
     <strong><%= comment.user_name %></strong>
     <br />
     <p><%= comment.body %></p>
     <p><%= link_to 'Delete', comment_path(comment), method: :delete, data: { confirm: 'Are you sure?' } %></p>
   </div>
 <% end %>
+
+  <% if @comments.size > 3 then %>
+<a href='' onclick='event.preventDefault();mostrarTodos();'>Mostrar todos</a>
+<div id='todos' style='display:none;'>
+  <% @comments[3..-1].each do |comment| %>
+    <div>
+      <strong><%= comment.user_name %></strong>
+      <br />
+      <p><%= comment.body %></p>
+      <p><%= link_to 'Delete', comment_path(comment), method: :delete, data: { confirm: 'Are you sure?' } %></p>
+    </div>
+  <% end %>
+</div>
+  <% end %>
 
 <%= render 'comments/form' %>
 
